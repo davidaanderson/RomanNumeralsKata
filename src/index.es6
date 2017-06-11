@@ -111,7 +111,13 @@ class RomanNumeral {
     static parseInteger (integer) {
         RomanNumeral._ensureIntegerIsValid(integer);
         var romanNumeralValue = RomanNumeralTranslator.integerToRomanNumeral(integer);
-        return new RomanNumeral(romanNumeralValue);
+        return new RomanNumeral(romanNumeralValue, integer);
+    }
+
+    static parseString (romanNumeral) {
+        var arabicValue = RomanNumeralTranslator.romanNumeralToInteger(romanNumeral);
+        RomanNumeral._ensureIntegerIsValid(arabicValue);
+        return new RomanNumeral(romanNumeral, arabicValue);
     }
 
     static _ensureIntegerIsValid (integer) {
@@ -120,13 +126,9 @@ class RomanNumeral {
         }
     }
 
-    constructor (romanNumeral) {
+    constructor (romanNumeral, arabicNumeral) {
         this.romanValue = romanNumeral;
-
-        var arabicValue = RomanNumeralTranslator.romanNumeralToInteger(romanNumeral);
-        RomanNumeral._ensureIntegerIsValid(arabicValue);
-
-        this.arabicValue = arabicValue;
+        this.arabicValue = arabicNumeral;
     }
 
     toString () {

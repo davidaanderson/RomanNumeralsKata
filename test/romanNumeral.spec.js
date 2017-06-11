@@ -5,42 +5,52 @@ const chai = require('chai');
 const should = chai.should();
 
 describe('the RomanNumeral class', () => {
-    describe('when constructed with a roman numeral', () => {
+    describe('when parsing a string', () => {
         it('should raise an exception when greater than 3999', () => {
             should.throw(
-                () => new RomanNumeral('MMMM'),
+                () => RomanNumeral.parseString('MMMM'),
                 RangeError,
                 'Value 4000 must be between I (1) and MMMCMXCIX (3999)');
         });
 
         it('should raise an exception when an invalid character is included', () => {
             should.throw(
-                () => new RomanNumeral('MMSIX'),
+                () => RomanNumeral.parseString('MMSIX'),
                 Error,
                 'The Roman Numeral S is not valid'
             );
         });
 
         it('should accept 1', () => {
-            var sut = new RomanNumeral('I');
+            var sut = RomanNumeral.parseString('I');
             sut.toString().should.equal('I');
+            sut.toInteger().should.equal(1);
         });
 
-        it ('should accept 3999', () => {
-            var sut = new RomanNumeral('MMMCMXCIX');
+        it('should accept 3999', () => {
+            var sut = RomanNumeral.parseString('MMMCMXCIX');
             sut.toString().should.equal('MMMCMXCIX');
+            sut.toInteger().should.equal(3999);
         });
 
-        it('should be displayed correctly with toString', () => {
-            var sut = new RomanNumeral('MMXVII');
-            sut.toString().should.equal('MMXVII');
+        it('should accept roman numerals that do not use substractive notation', () => {
+            var sut = RomanNumeral.parseString('MDCCCCX');
+            sut.should.be.instanceOf(RomanNumeral);
+            sut.toInteger().should.equal(1910);
         });
     });
 
     describe('when displaying an integer', () => {
-        it('should convert MMXVII to 2017', () => {
-            var sut = new RomanNumeral('MMXVII');
+        it('should display value passed into constructor', () => {
+            var sut = new RomanNumeral('MMXVII', 2017);
             sut.toInteger().should.equal(2017);
+        });
+    });
+
+    describe('when displaying a string', () => {
+        it('should display value passed into constructor', () => {
+            var sut = new RomanNumeral('MMXVII', 2017);
+            sut.toString().should.equal('MMXVII');
         });
     });
 
