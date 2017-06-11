@@ -9,7 +9,7 @@
     "lint": "eslint src/*.es6 test/*.spec.js",
     "fix": "eslint src/*.es6 test/*.spec.js --fix",
     "prepublish": "npm run compile && npm run lint && npm run test",
-    "postinstall": "npn run compile"
+    "postinstall": "npm run compile"
   },
   "repository": {
     "type": "git",
