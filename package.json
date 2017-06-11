@@ -1,0 +1,33 @@
+{
+  "name": "roman-numerals-kata",
+  "version": "1.0.0",
+  "description": "Roman Numerals Code Kata",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start karma.conf.js",
+    "lint": "eslint tests/**/*.js",
+    "fix": "eslint --fix tests/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidaanderson/RomanNumeralsKata.git"
+  },
+  "author": "David Anderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidaanderson/RomanNumeralsKata/issues"
+  },
+  "homepage": "https://github.com/davidaanderson/RomanNumeralsKata#readme",
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "eslint": "^2.13.1",
+    "eslint-config-kandl": "git+https://github.com/bbc/kandl-eslint-config.git",
+    "eslint-plugin-chai": "0.0.1",
+    "karma": "^1.7.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "mocha": "^3.4.2"
+  }
+}

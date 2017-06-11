@@ -1,0 +1,10 @@
+{
+    "plugins": ["chai"],
+    "env":{
+        "mocha": true
+    },
+    "globals": {
+        "expect": true
+    },
+    "extends": "kandl"
+}
