@@ -16,7 +16,23 @@ const romanToArabicMap = {
     'M': 1000
 };
 
-const arabicToRomanMap = [
+const arabicToRomanMap = {
+    1000: 'M',
+    900: 'CM',
+    500: 'D',
+    400: 'CD',
+    100: 'C',
+    90: 'XC',
+    50: 'L',
+    40: 'XL',
+    10: 'X',
+    9: 'IX',
+    5: 'V',
+    4: 'IV',
+    1: 'I'
+};
+
+const arabicTokens = [
     1000,
     900,
     500,
@@ -33,7 +49,7 @@ const arabicToRomanMap = [
 ];
 
 class RomanNumeralTranslator {
-    static _getNextToken (romanNumeral) {
+    static _getNextTokenFromRomanNumeral (romanNumeral) {
         if (romanNumeral === '') {
             return '';
         }
@@ -62,7 +78,7 @@ class RomanNumeralTranslator {
             return 0;
         }
 
-        let nextToken = RomanNumeralTranslator._getNextToken(romanNumeral);
+        let nextToken = RomanNumeralTranslator._getNextTokenFromRomanNumeral(romanNumeral);
         let sum = romanToArabicMap[nextToken];
         let remainingString = romanNumeral.substring(nextToken.length);
 
@@ -70,29 +86,47 @@ class RomanNumeralTranslator {
         return sum;
     }
 
-    static integerToRomanNumeral (integer) {
+    static integerToRomanNumeral (integerToParse) {
+        let arabicTokenArrayPointer = 0;
+        let romanNumeralBeingConstructed = '';
 
+        while (integerToParse > 0) {
+            let currentArabicTokenValue = arabicTokens[arabicTokenArrayPointer];
+            let remainingIntegerToParse = integerToParse - currentArabicTokenValue;
+
+            if (remainingIntegerToParse < 0) {
+                arabicTokenArrayPointer++;
+            }
+            else {
+                romanNumeralBeingConstructed += arabicToRomanMap[currentArabicTokenValue];
+                integerToParse = remainingIntegerToParse;
+            }
+        }
+
+        return romanNumeralBeingConstructed;
     }
 }
 
 class RomanNumeral {
     static parseInteger (integer) {
-        throw 'Not Implemented';
+        RomanNumeral._ensureIntegerIsValid(integer);
+        var romanNumeralValue = RomanNumeralTranslator.integerToRomanNumeral(integer);
+        return new RomanNumeral(romanNumeralValue);
+    }
+
+    static _ensureIntegerIsValid (integer) {
+        if (integer < 1 || integer > 3999) {
+            throw new RangeError(`Value ${integer} must be between I (1) and MMMCMXCIX (3999)`);
+        }
     }
 
     constructor (romanNumeral) {
         this.romanValue = romanNumeral;
 
         var arabicValue = RomanNumeralTranslator.romanNumeralToInteger(romanNumeral);
-        this._ensureIntegerIsValid(arabicValue);
+        RomanNumeral._ensureIntegerIsValid(arabicValue);
 
         this.arabicValue = arabicValue;
-    }
-
-    _ensureIntegerIsValid (integer) {
-        if (integer < 1 || integer > 3999) {
-            throw new RangeError(`Value ${integer} must be between I (1) and MMMCMXCIX (3999)`);
-        }
     }
 
     toString () {
@@ -100,7 +134,7 @@ class RomanNumeral {
     }
 
     toInteger () {
-        throw 'Not Implemented';
+        return this.arabicValue;
     }
 }
 

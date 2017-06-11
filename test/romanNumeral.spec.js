@@ -46,30 +46,42 @@ describe('the RomanNumeral class', () => {
 
     describe('when parsing an integer', () => {
         it('should raise an exception when less than 1', () => {
-            RomanNumeral.parseInteger(0)
-                .should
-                .throw(RangeError, 'between I (1) and MMMCMXCIX (3999)');
+            should.throw(
+                () => RomanNumeral.parseInteger(0),
+                RangeError,
+                'between I (1) and MMMCMXCIX (3999)');
         });
 
         it ('should raise an exception when greater than 3999', () => {
-            RomanNumeral.parseInteger(4000)
-                .should
-                .throw(RangeError, 'between I (1) and MMMCMXCIX (3999)');
+            should.throw(
+                () => RomanNumeral.parseInteger(4000),
+                RangeError,
+                'between I (1) and MMMCMXCIX (3999)');
         });
 
         it('should convert 1 to I', () => {
             var sut = RomanNumeral.parseInteger(1);
+            sut.should.be.instanceOf(RomanNumeral);
             sut.toString().should.equal('I');
         });
 
         it('should convert 3999 to MMMCMXCIX', () => {
             var sut = RomanNumeral.parseInteger(3999);
+            sut.should.be.instanceOf(RomanNumeral);
             sut.toString().should.equal('MMMCMXCIX');
         });
 
         it('should convert 2017 to MMXVII', () => {
             var sut = RomanNumeral.parseInteger(2017);
+            sut.should.be.instanceOf(RomanNumeral);
             sut.toString().should.equal('MMXVII');
+        });
+
+        it('should prefer subtractive notation to standard notation', () => {
+            var sut = RomanNumeral.parseInteger(1910);
+            sut.should.be.instanceOf(RomanNumeral);
+            sut.toString().should.not.equal('MDCCCCX');
+            sut.toString().should.equal('MCMX');
         });
     });
 });
